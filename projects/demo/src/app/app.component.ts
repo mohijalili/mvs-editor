@@ -14,17 +14,24 @@ import nodeViews from './nodeviews';
   styleUrls: ['app.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-
 export class AppComponent implements OnInit, OnDestroy {
   isProdMode = environment.production;
 
   editordoc = jsonDoc;
 
   editor: Editor;
-  toolbar: Toolbar = DEFAULT_TOOLBAR;
+  toolbar: Toolbar = [
+    ['bold', 'italic'],
+    ['bullet_list'],
+    [{ heading: ['h1', 'h2', 'h3'] }],
+    ['link', 'image'],
+  ];
 
   form = new FormGroup({
-    editorContent: new FormControl({ value: jsonDoc, disabled: false }, Validators.required(schema)),
+    editorContent: new FormControl(
+      { value: jsonDoc, disabled: false },
+      Validators.required(schema)
+    ),
   });
 
   get doc(): AbstractControl {

@@ -15,8 +15,7 @@
     "release": "sh ./scripts/release.sh",
     "test:demo": "ng test demo --browsers ChromeHeadless --watch false",
     "test:lib": "ng test mvs-editor --browsers ChromeHeadless --watch false",
-    "test": "npm run test:lib && npm run test:demo",
-    "prepare": "is-ci || husky install"
+    "test": "npm run test:lib && npm run test:demo"
   },
   "engines": {
     "node": ">=16",
