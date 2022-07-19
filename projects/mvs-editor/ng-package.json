@@ -1,0 +1,19 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/mvs-editor",
+  "lib": {
+    "entryFile": "./src/public_api.ts"
+  },
+  "allowedNonPeerDependencies": [
+    "prosemirror-state",
+    "prosemirror-view",
+    "prosemirror-keymap",
+    "prosemirror-model",
+    "prosemirror-schema-list",
+    "prosemirror-commands",
+    "prosemirror-history",
+    "prosemirror-inputrules",
+    "@floating-ui/core",
+    "@floating-ui/dom"
+  ]
+}

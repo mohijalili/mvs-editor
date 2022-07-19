@@ -1,0 +1,43 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #000;
+  color: white;
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.NgxBubbleMenu__Icon {
+  height: 30px;
+  width: 30px;
+  transition: 0.3s ease-in-out;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+
+  &:hover {
+    background-color: #636262;
+  }
+
+  + .NgxBubbleMenu__Icon {
+    margin-left: 5px;
+  }
+
+  &.NgxBubbleMenu__Icon--Active {
+    background-color: white;
+    color: black;
+  }
+}
+
+.NgxBubbleMenu__Seperator {
+  border-left: 1px solid white;
+  margin: 0 5px;
+}

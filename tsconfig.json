@@ -1,0 +1,54 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": false,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "paths": {
+      "mvs-editor": [
+        "dist/mvs-editor/mvs-editor",
+        "dist/mvs-editor"
+      ],
+      "mvs-editor/utils": [
+        "dist/mvs-editor/mvs-editor/utils",
+        "dist/mvs-editor/utils"
+      ],
+      "mvs-editor/helpers": [
+        "dist/mvs-editor/mvs-editor/helpers",
+        "dist/mvs-editor/helpers"
+      ],
+      "mvs-editor/schema": [
+        "dist/mvs-editor/mvs-editor/schema",
+        "dist/mvs-editor/schema"
+      ],
+      "mvs-editor/commands": [
+        "dist/mvs-editor/mvs-editor/commands",
+        "dist/mvs-editor/commands"
+      ]
+    },
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2017",
+    "module": "es2020",
+    "lib": [
+      "es2020",
+      "dom"
+    ]
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

@@ -1,0 +1,4 @@
+'*.md': prettier --write
+'docs/**/*.html': prettier --write
+'*.{js,ts}': eslint --fix
+'projects/**/*.html': eslint --fix
