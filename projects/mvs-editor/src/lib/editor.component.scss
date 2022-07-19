@@ -282,43 +282,40 @@ $menubar-text-padding: 0 $menu-item-spacing;
 }
 
 .NgxEditor__Content {
-  h1 {
+
+  height: 40rem;
+
+  overflow-y: auto;
+
+  padding: 1rem !important;
+
+  h1,h2,h3,ul {
+    margin: 0.5rem 0 !important;
     display: block !important;
+  }
+
+  p {
+    margin: 0.75rem 0 !important;
+  }
+
+  h1 {
     font-size: 2em !important;
-    margin-block-start: 0.67em !important;
-    margin-block-end: 0.67em !important;
-    margin-inline-start: 0px !important;
-    margin-inline-end: 0px !important;
     font-weight: bold !important;
   }
   
   h2 {
-    display: block !important;
     font-size: 1.5em !important;
-    margin-block-start: 0.83em !important;
-    margin-block-end: 0.83em !important;
-    margin-inline-start: 0px !important;
-    margin-inline-end: 0px !important;
     font-weight: bold !important;
   }
   
   h3 {
-    display: block !important;
       font-size: 1.17em !important;
-      margin-block-start: 1em !important;
-      margin-block-end: 1em !important;
-      margin-inline-start: 0px !important;
-      margin-inline-end: 0px !important;
       font-weight: bold !important;
   }
   
   ul {
     display: block !important;
     list-style-type: disc !important;
-    margin-block-start: 1em !important;
-    margin-block-end: 1em !important;
-    margin-inline-start: 0px !important;
-    margin-inline-end: 0px !important;
     padding-inline-start: 40px !important;
   }
   
