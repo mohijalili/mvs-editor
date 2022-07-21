@@ -4,6 +4,7 @@ $icon-size: 30px;
 $border-radius: 4px;
 
 $blue: #2E22F6;
+$gray: #161616;
 $light-gray: #1F1F1F;
 $light-gray-1: #e8f0fe;
 $medium-gray: #ddd;
@@ -337,12 +338,18 @@ $menubar-text-padding: 0 $menu-item-spacing;
 }
 
 .NgxEditor__Popup {
+
+  background-color: $gray;
+
   input {
     border: 1px solid $light-gray !important;
     border-radius: 0.4375rem;
+    background-color: $light-gray;
+    color: #fff;
   }
   
   input:disabled {
+    background-color: #525252;
     color: #f1f1f1;
   }
   
