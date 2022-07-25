@@ -1,4 +1,9 @@
-import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Injector } from '@angular/core';
+import {
+  ApplicationRef,
+  ComponentFactoryResolver,
+  ComponentRef,
+  Injector,
+} from '@angular/core';
 import { Node as ProseMirrorNode } from 'prosemirror-model';
 import { NodeSelection, Plugin, PluginKey } from 'prosemirror-state';
 import { EditorView, NodeView } from 'prosemirror-view';
@@ -18,12 +23,18 @@ class ImageRezieView implements NodeView {
   node: ProseMirrorNode;
   updating = false;
 
-  constructor(node: ProseMirrorNode, view: EditorView, getPos: () => number, injector: Injector) {
+  constructor(
+    node: ProseMirrorNode,
+    view: EditorView,
+    getPos: () => number,
+    injector: Injector
+  ) {
     const componentFactoryResolver = injector.get(ComponentFactoryResolver);
     this.applicationRef = injector.get(ApplicationRef);
 
     // Create the component and wire it up with the element
-    const factory = componentFactoryResolver.resolveComponentFactory(ImageViewComponent);
+    const factory =
+      componentFactoryResolver.resolveComponentFactory(ImageViewComponent);
 
     this.imageComponentRef = factory.create(injector, []);
     // Attach to the view so that the change detector knows to run
@@ -41,12 +52,16 @@ class ImageRezieView implements NodeView {
     this.node = node;
     this.getPos = getPos;
 
-    this.resizeSubscription = this.imageComponentRef.instance.imageResize.subscribe(() => {
-      this.handleResize();
-    });
+    this.resizeSubscription =
+      this.imageComponentRef.instance.imageResize.subscribe(() => {
+        this.handleResize();
+      });
   }
 
-  private computeChanges(prevAttrs: Record<string, any>, newAttrs: Record<string, any>): boolean {
+  private computeChanges(
+    prevAttrs: Record<string, any>,
+    newAttrs: Record<string, any>
+  ): boolean {
     return JSON.stringify(prevAttrs) === JSON.stringify(newAttrs);
   }
 
@@ -55,6 +70,7 @@ class ImageRezieView implements NodeView {
     this.imageComponentRef.instance.alt = attrs['alt'];
     this.imageComponentRef.instance.title = attrs['title'];
     this.imageComponentRef.instance.outerWidth = attrs['width'];
+    this.imageComponentRef.instance.outerHeight = attrs['height'];
   }
 
   handleResize = (): void => {
@@ -68,6 +84,7 @@ class ImageRezieView implements NodeView {
     const transaction = tr.setNodeMarkup(this.getPos(), undefined, {
       ...this.node.attrs,
       width: this.imageComponentRef.instance.outerWidth,
+      height: this.imageComponentRef.instance.outerHeight,
     });
 
     const resolvedPos = transaction.doc.resolve(this.getPos());
@@ -116,7 +133,11 @@ const imageResizePlugin = (injector: Injector): Plugin => {
     key: new PluginKey('image-resize'),
     props: {
       nodeViews: {
-        image: (node: ProseMirrorNode, view: EditorView, getPos: () => number) => {
+        image: (
+          node: ProseMirrorNode,
+          view: EditorView,
+          getPos: () => number
+        ) => {
           return new ImageRezieView(node, view, getPos, injector);
         },
       },

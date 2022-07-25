@@ -98,7 +98,11 @@ class Editor {
   private createEditor(): void {
     const { options, schema } = this;
     const { content = null, nodeViews } = options;
-    const { history = true, keyboardShortcuts = true, inputRules = true } = options;
+    const {
+      history = true,
+      keyboardShortcuts = true,
+      inputRules = true,
+    } = options;
 
     const doc = parseContent(content, schema);
 
@@ -121,6 +125,11 @@ class Editor {
       dispatchTransaction: this.handleTransactions.bind(this),
       attributes,
       handleScrollToSelection: options.handleScrollToSelection,
+      transformPastedHTML: (html: string) => {
+        const tmp = document.implementation.createHTMLDocument('new').body;
+        tmp.innerHTML = html;
+        return tmp.textContent || tmp.innerText || '';
+      },
     });
   }
 

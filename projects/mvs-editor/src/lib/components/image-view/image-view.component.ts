@@ -1,6 +1,11 @@
 import {
-  Component, ElementRef, EventEmitter,
-  Input, Output, ViewChild,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
 } from '@angular/core';
 import { EditorView } from 'prosemirror-view';
 
@@ -9,12 +14,13 @@ import { EditorView } from 'prosemirror-view';
   templateUrl: './image-view.component.html',
   styleUrls: ['./image-view.component.scss'],
 })
-
-export class ImageViewComponent {
+export class ImageViewComponent implements AfterViewInit {
   @Input() src: string;
   @Input() alt = '';
   @Input() title = '';
   @Input() outerWidth = '';
+  @Input() outerHeight = '';
+
   @Input() selected = false;
   @Input() view: EditorView;
 
@@ -29,7 +35,9 @@ export class ImageViewComponent {
 
   resizeImage(evt: MouseEvent, direction: string): void {
     const startX = evt.pageX;
+    const startY = evt.pageY;
     const startWidth = this.imgEl.nativeElement.clientWidth;
+    const startHeight = this.imgEl.nativeElement.clientHeight;
 
     const isLeftResize = direction === 'left';
 
@@ -39,7 +47,16 @@ export class ImageViewComponent {
     const onMouseMove = (e: MouseEvent) => {
       const currentX = e.pageX;
       const diffInPx = currentX - startX;
-      const computedWidth = isLeftResize ? startWidth - diffInPx : startWidth + diffInPx;
+      const computedWidth = isLeftResize
+        ? startWidth - diffInPx
+        : startWidth + diffInPx;
+
+      const currentY = e.pageY;
+
+      const diffInPxY = startY - currentY;
+      const computedHeight = isLeftResize
+        ? startHeight - diffInPxY
+        : startHeight + diffInPxY;
 
       // prevent image overflow the editor
       // prevent resizng below 20px
@@ -48,6 +65,7 @@ export class ImageViewComponent {
       }
 
       this.outerWidth = `${computedWidth}px`;
+      this.outerHeight = `${computedHeight}px`;
     };
 
     const onMouseUp = (e: MouseEvent) => {
@@ -61,5 +79,14 @@ export class ImageViewComponent {
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
+  }
+
+  ngAfterViewInit(): void {
+    if (this.imgEl) {
+      setTimeout(() => {
+        this.outerWidth = this.imgEl.nativeElement.offsetWidth;
+        this.outerHeight = this.imgEl.nativeElement.offsetHeight;
+      }, 100);
+    }
   }
 }

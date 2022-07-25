@@ -1,4 +1,8 @@
-import { type EditorState, NodeSelection, type Command } from 'prosemirror-state';
+import {
+  type EditorState,
+  NodeSelection,
+  type Command,
+} from 'prosemirror-state';
 
 import { Dispatch } from './types';
 
@@ -6,6 +10,7 @@ export interface ImageAttrs {
   alt?: string;
   title?: string;
   width?: string;
+  height?: string;
 }
 
 class Image {
@@ -14,29 +19,34 @@ class Image {
       const { schema, tr, selection } = state;
 
       const type = schema.nodes['image'];
+
       if (!type) {
         return false;
       }
 
       const imageAttrs = {
         width: null,
+        height: null,
         src,
         ...attrs,
       };
 
-      if (!imageAttrs.width && selection instanceof NodeSelection && selection.node.type === type) {
+      if (
+        !imageAttrs.width &&
+        selection instanceof NodeSelection &&
+        selection.node.type === type
+      ) {
         imageAttrs.width = selection.node.attrs['width'];
+        imageAttrs.height = selection.node.attrs['height'];
       }
 
       tr.replaceSelectionWith(type.createAndFill(imageAttrs));
 
       const resolvedPos = tr.doc.resolve(
-        tr.selection.anchor - tr.selection.$anchor.nodeBefore.nodeSize,
+        tr.selection.anchor - tr.selection.$anchor.nodeBefore.nodeSize
       );
 
-      tr
-        .setSelection(new NodeSelection(resolvedPos))
-        .scrollIntoView();
+      tr.setSelection(new NodeSelection(resolvedPos)).scrollIntoView();
 
       if (tr.docChanged) {
         dispatch?.(tr);

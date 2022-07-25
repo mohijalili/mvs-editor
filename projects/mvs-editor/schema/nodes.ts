@@ -1,4 +1,8 @@
-import { DOMOutputSpec, Node as ProseMirrorNode, NodeSpec } from 'prosemirror-model';
+import {
+  DOMOutputSpec,
+  Node as ProseMirrorNode,
+  NodeSpec,
+} from 'prosemirror-model';
 import * as sl from 'prosemirror-schema-list';
 
 import { toStyleString } from 'mvs-editor/utils';
@@ -209,6 +213,7 @@ export const image: NodeSpec = {
     alt: { default: null },
     title: { default: null },
     width: { default: null },
+    height: { default: null },
   },
   group: 'inline',
   draggable: true,
@@ -221,13 +226,14 @@ export const image: NodeSpec = {
           title: dom.getAttribute('title'),
           alt: dom.getAttribute('alt'),
           width: dom.getAttribute('width'),
+          height: dom.getAttribute('height'),
         };
       },
     },
   ],
   toDOM(node: ProseMirrorNode): DOMOutputSpec {
-    const { src, alt, title, width } = node.attrs;
-    return ['img', { src, alt, title, width }];
+    const { src, alt, title, width, height } = node.attrs;
+    return ['img', { src, alt, title, width, height }];
   },
 };
 
