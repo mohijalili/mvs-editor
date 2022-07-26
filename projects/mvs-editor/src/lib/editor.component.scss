@@ -60,6 +60,13 @@ $menubar-text-padding: 0 $menu-item-spacing;
   font-variant-ligatures: none;
   font-feature-settings: "liga" 0;
 
+  img {
+    width: 300px;
+    height: auto;
+    object-fit: cover;
+    object-position: center;
+  }
+
   p {
     margin: 0 0 10px;
   }
