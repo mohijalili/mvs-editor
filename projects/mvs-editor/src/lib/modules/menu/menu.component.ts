@@ -1,6 +1,9 @@
 import {
-  Component, Input,
-  OnInit, TemplateRef,
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  TemplateRef,
 } from '@angular/core';
 
 import { NgxEditorError } from 'mvs-editor/utils';
@@ -62,8 +65,8 @@ const DEFAULT_COLOR_PRESETS = [
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss'],
   providers: [MenuService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class MenuComponent implements OnInit {
   @Input() toolbar: Toolbar = TOOLBAR_MINIMAL;
   @Input() colorPresets: string[] = DEFAULT_COLOR_PRESETS;
@@ -87,15 +90,13 @@ export class MenuComponent implements OnInit {
     'align_justify',
   ];
 
-  insertCommands: ToolbarItem[] = [
-    'horizontal_rule',
-  ];
+  insertCommands: ToolbarItem[] = ['horizontal_rule'];
 
   iconContainerClass = ['NgxEditor__MenuItem', 'NgxEditor__MenuItem--Icon'];
   dropdownContainerClass = ['NgxEditor__Dropdown'];
   seperatorClass = ['NgxEditor__Seperator'];
 
-  constructor(private menuService: MenuService) { }
+  constructor(private menuService: MenuService) {}
 
   get presets(): string[][] {
     const col = 8;
@@ -132,7 +133,9 @@ export class MenuComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.editor) {
-      throw new NgxEditorError('Required editor instance to initialize menu component');
+      throw new NgxEditorError(
+        'Required editor instance to initialize menu component'
+      );
     }
 
     this.menuService.editor = this.editor;
