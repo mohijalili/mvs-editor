@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -14,7 +13,6 @@ import { EditorView } from 'prosemirror-view';
   selector: 'ngx-image-view',
   templateUrl: './image-view.component.html',
   styleUrls: ['./image-view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageViewComponent implements AfterViewInit {
   @Input() src: string;
