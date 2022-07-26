@@ -84,8 +84,9 @@ export class ImageViewComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     if (this.imgEl) {
       setTimeout(() => {
-        this.outerWidth = this.imgEl.nativeElement.offsetWidth;
-        this.outerHeight = this.imgEl.nativeElement.offsetHeight;
+        this.outerWidth = this.imgEl.nativeElement.naturalWidth;
+        this.outerHeight = this.imgEl.nativeElement.naturalHeight;
+        this.imageResize.emit();
       }, 100);
     }
   }
