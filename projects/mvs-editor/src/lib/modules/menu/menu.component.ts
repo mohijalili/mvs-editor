@@ -3,7 +3,6 @@ import {
   Component,
   Inject,
   Input,
-  OnDestroy,
   OnInit,
   TemplateRef,
 } from '@angular/core';
@@ -18,7 +17,7 @@ import {
   NGX_UPLOAD_IMAGE_TOKEN,
   NgxUploadImagePayload,
 } from '../../upload-image.service';
-import { map, Observable, Subscription } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 export const DEFAULT_TOOLBAR: Toolbar = [
   ['bold', 'italic'],
@@ -83,7 +82,7 @@ export class MenuComponent implements OnInit {
   @Input() editor: Editor;
   @Input() customMenuRef: TemplateRef<any> | null = null;
   @Input() dropdownPlacement: 'top' | 'bottom' = 'bottom';
-  @Input() uploadImageConfig: INgxUploadImageConfig;
+  @Input() uploadImageConfig: INgxUploadImageConfig | null = null;
 
   public imageUrl$: Observable<string>;
 
