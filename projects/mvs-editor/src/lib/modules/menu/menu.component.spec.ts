@@ -16,7 +16,6 @@ import {
   NgxUploadImageService,
   NGX_UPLOAD_IMAGE_TOKEN,
 } from '../../upload-image.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
@@ -24,7 +23,6 @@ describe('MenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
       declarations: [
         SanitizeHtmlPipe,
 

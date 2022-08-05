@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -46,4 +46,18 @@ import {
   ],
   exports: [MenuComponent, FloatingMenuComponent],
 })
-export class MenuModule {}
+export class MenuModule {
+  static forRoot(): ModuleWithProviders<MenuModule> {
+    return {
+      ngModule: MenuModule,
+      providers: [NgxUploadImageService],
+    };
+  }
+
+  static forChild(): ModuleWithProviders<MenuModule> {
+    return {
+      ngModule: MenuModule,
+      providers: [NgxUploadImageService],
+    };
+  }
+}
