@@ -22,7 +22,7 @@ const defaultConfig: NgxEditorConfig = {
 };
 
 @NgModule({
-  imports: [CommonModule, MenuModule.forRoot()],
+  imports: [CommonModule, MenuModule],
   providers: [],
   declarations: [NgxEditorComponent, ImageViewComponent],
   exports: [NgxEditorComponent, MenuComponent, FloatingMenuComponent],

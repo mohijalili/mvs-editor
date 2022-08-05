@@ -16,11 +16,7 @@ import { CustomMenuComponent } from './components/custom-menu/custom-menu.compon
     ReactiveFormsModule,
     NgxEditorModule,
   ],
-  declarations: [
-    AppComponent,
-    CustomMenuComponent,
-  ],
+  declarations: [AppComponent, CustomMenuComponent],
   bootstrap: [AppComponent],
 })
-
-export class AppModule { }
+export class AppModule {}

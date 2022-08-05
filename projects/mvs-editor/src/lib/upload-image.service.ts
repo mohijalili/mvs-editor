@@ -1,12 +1,7 @@
-import { Injectable, InjectionToken, Self } from '@angular/core';
+import { Injectable, InjectionToken, Injector } from '@angular/core';
 
-import {
-  HttpBackend,
-  HttpClient,
-  HttpContext,
-  HttpHeaders,
-  HttpParams,
-} from '@angular/common/http';
+import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
+
 import { map, Observable } from 'rxjs';
 
 export interface IRequest<T> {
@@ -66,11 +61,7 @@ export const NGX_UPLOAD_IMAGE_TOKEN = new InjectionToken<INgxUploadImage>(
   providedIn: 'root',
 })
 export class NgxUploadImageService implements INgxUploadImage {
-  private http: HttpClient;
-
-  constructor(handler: HttpBackend) {
-    this.http = new HttpClient(handler);
-  }
+  constructor(private injector: Injector) {}
 
   uploadImage({
     method,
@@ -88,7 +79,9 @@ export class NgxUploadImageService implements INgxUploadImage {
       headers,
     };
 
-    return this.http
+    const http = this.injector.get(HttpClient);
+
+    return http
       .request<IRequest<INgxUploadImageResponse>>(method, url, option)
       .pipe(map((response) => response.data));
   }

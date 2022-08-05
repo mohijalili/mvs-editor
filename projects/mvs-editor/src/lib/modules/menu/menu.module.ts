@@ -13,14 +13,13 @@ import { BubbleComponent } from './bubble/bubble.component';
 
 import { SanitizeHtmlPipe } from '../../pipes/sanitize/sanitize-html.pipe';
 import { InsertCommandComponent } from './insert-command/insert-command.component';
-import { HttpClientModule } from '@angular/common/http';
 import {
   NgxUploadImageService,
   NGX_UPLOAD_IMAGE_TOKEN,
 } from '../../upload-image.service';
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
+  imports: [CommonModule, ReactiveFormsModule],
   declarations: [
     // pipes
     SanitizeHtmlPipe,
@@ -46,18 +45,4 @@ import {
   ],
   exports: [MenuComponent, FloatingMenuComponent],
 })
-export class MenuModule {
-  static forRoot(): ModuleWithProviders<MenuModule> {
-    return {
-      ngModule: MenuModule,
-      providers: [NgxUploadImageService],
-    };
-  }
-
-  static forChild(): ModuleWithProviders<MenuModule> {
-    return {
-      ngModule: MenuModule,
-      providers: [NgxUploadImageService],
-    };
-  }
-}
+export class MenuModule {}
