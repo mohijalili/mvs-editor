@@ -15,7 +15,7 @@
       <ngx-link [class]="iconContainerClass" *ngIf="item === 'link'"></ngx-link>
 
       <!-- image -->
-      <ngx-image [class]="iconContainerClass" *ngIf="item === 'image'">
+      <ngx-image [show]="showUploadButton" [imageUrl]="imageUrl$ | async" (upload)="upload($event)" [class]="iconContainerClass" *ngIf="item === 'image'">
       </ngx-image>
 
       <!-- dropdown -->

@@ -1,8 +1,21 @@
 import {
-  Component, ElementRef,
-  HostListener, OnDestroy, OnInit,
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  EventEmitter,
 } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { NodeSelection } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { Subscription } from 'rxjs';
@@ -17,7 +30,11 @@ import { Image as ImageCommand } from '../MenuCommands';
   templateUrl: './image.component.html',
   styleUrls: ['./image.component.scss'],
 })
-export class ImageComponent implements OnInit, OnDestroy {
+export class ImageComponent implements OnChanges, OnInit, OnDestroy {
+  @Input() imageUrl: string;
+  @Input() show = false;
+  @Output() upload = new EventEmitter();
+
   showPopup = false;
   isActive = false;
   private updateSubscription: Subscription;
@@ -25,7 +42,9 @@ export class ImageComponent implements OnInit, OnDestroy {
   form = new FormGroup({
     src: new FormControl('', [
       Validators.required,
-      Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/??([^#\n\r]*)?#?([^\n\r]*)'),
+      Validators.pattern(
+        '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/??([^#\n\r]*)?#?([^\n\r]*)'
+      ),
     ]),
     alt: new FormControl(''),
     title: new FormControl(''),
@@ -36,8 +55,20 @@ export class ImageComponent implements OnInit, OnDestroy {
   constructor(
     private el: ElementRef,
     private ngxeService: NgxEditorService,
-    private menuService: MenuService,
-  ) { }
+    private menuService: MenuService
+  ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      changes['imageUrl'] &&
+      changes['imageUrl'].currentValue &&
+      this.imageUrl
+    ) {
+      this.src.patchValue(this.imageUrl);
+      this.src.updateValueAndValidity();
+      this.src.markAsDirty();
+    }
+  }
 
   get icon(): string {
     return Icon.get('image');
@@ -47,7 +78,9 @@ export class ImageComponent implements OnInit, OnDestroy {
     return this.form.get('src');
   }
 
-  @HostListener('document:mousedown', ['$event']) onDocumentClick(e: MouseEvent): void {
+  @HostListener('document:mousedown', ['$event']) onDocumentClick(
+    e: MouseEvent
+  ): void {
     if (!this.el.nativeElement.contains(e.target) && this.showPopup) {
       this.hideForm();
     }
@@ -115,9 +148,17 @@ export class ImageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.editorView = this.menuService.editor.view;
 
-    this.updateSubscription = this.menuService.editor.update.subscribe((view: EditorView) => {
-      this.update(view);
-    });
+    this.updateSubscription = this.menuService.editor.update.subscribe(
+      (view: EditorView) => {
+        this.update(view);
+      }
+    );
+  }
+
+  public select(event: FileList | null): void {
+    if (event) {
+      this.upload.emit(event[0]);
+    }
   }
 
   ngOnDestroy(): void {

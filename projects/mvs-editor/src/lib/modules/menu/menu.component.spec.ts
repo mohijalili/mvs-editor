@@ -12,6 +12,11 @@ import { ImageComponent } from './image/image.component';
 import { ColorPickerComponent } from './color-picker/color-picker.component';
 import Editor from '../../Editor';
 import { MenuService } from './menu.service';
+import {
+  NgxUploadImageService,
+  NGX_UPLOAD_IMAGE_TOKEN,
+} from '../../upload-image.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
@@ -19,6 +24,7 @@ describe('MenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
       declarations: [
         SanitizeHtmlPipe,
 
@@ -29,7 +35,13 @@ describe('MenuComponent', () => {
         ImageComponent,
         ColorPickerComponent,
       ],
-      providers: [MenuService],
+      providers: [
+        MenuService,
+        {
+          provide: NGX_UPLOAD_IMAGE_TOKEN,
+          useClass: NgxUploadImageService,
+        },
+      ],
     }).compileComponents();
   });
 
@@ -55,14 +67,20 @@ describe('MenuComponent', () => {
 
   it('should position the dropdown correctly', () => {
     const compiled: DebugElement = fixture.debugElement;
-    expect(compiled.query(By.css('.NgxEditor__MenuBar.NgxEditor__MenuBar--Reverse'))).toBeFalsy();
+    expect(
+      compiled.query(By.css('.NgxEditor__MenuBar.NgxEditor__MenuBar--Reverse'))
+    ).toBeFalsy();
 
     component.dropdownPlacement = 'top';
     fixture.detectChanges();
-    expect(compiled.query(By.css('.NgxEditor__MenuBar.NgxEditor__MenuBar--Reverse'))).toBeTruthy();
+    expect(
+      compiled.query(By.css('.NgxEditor__MenuBar.NgxEditor__MenuBar--Reverse'))
+    ).toBeTruthy();
 
     component.dropdownPlacement = 'bottom';
     fixture.detectChanges();
-    expect(compiled.query(By.css('.NgxEditor__MenuBar.NgxEditor__MenuBar--Reverse'))).toBeFalsy();
+    expect(
+      compiled.query(By.css('.NgxEditor__MenuBar.NgxEditor__MenuBar--Reverse'))
+    ).toBeFalsy();
   });
 });
