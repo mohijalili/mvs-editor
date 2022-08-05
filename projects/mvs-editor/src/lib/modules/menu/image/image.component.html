@@ -9,7 +9,20 @@
     <div class="NgxEditor__Popup--FormGroup">
       <div class="NgxEditor__Popup--Col">
         <label class="NgxEditor__Popup--Label">{{getLabel('url')}}</label>
-        <input type="href" id="href" formControlName="src" autofocus autocomplete="off" />
+
+        <ng-container *ngIf="!show;else withUpload">
+          <input type="href" id="href" formControlName="src" autofocus autocomplete="off" />
+        </ng-container>
+
+        <ng-template #withUpload>
+          <div class="NgxEditor__Select">
+            <input type="href" id="href" formControlName="src" autofocus autocomplete="off" />
+            <button (click)="fileInput.click()" type="button" class="">Upload</button>
+            <input hidden accept="image/*" type="file" (change)="select(fileInput.files)" #fileInput>
+          </div>
+        </ng-template>
+
+
         <div *ngIf="src.touched && src.invalid" class="NgxEditor__HelpText NgxEditor__HelpText--Error">
           {{ src.errors?.['pattern'] && 'Please enter valid url.' }}
         </div>

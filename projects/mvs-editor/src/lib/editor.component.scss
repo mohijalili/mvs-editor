@@ -371,3 +371,14 @@ $menubar-text-padding: 0 $menu-item-spacing;
   }
 }
 
+
+.NgxEditor__Select {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+
+  button {
+
+  }
+}

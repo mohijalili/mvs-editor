@@ -13,12 +13,14 @@ import { BubbleComponent } from './bubble/bubble.component';
 
 import { SanitizeHtmlPipe } from '../../pipes/sanitize/sanitize-html.pipe';
 import { InsertCommandComponent } from './insert-command/insert-command.component';
+import { HttpClientModule } from '@angular/common/http';
+import {
+  NgxUploadImageService,
+  NGX_UPLOAD_IMAGE_TOKEN,
+} from '../../upload-image.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule],
   declarations: [
     // pipes
     SanitizeHtmlPipe,
@@ -37,11 +39,11 @@ import { InsertCommandComponent } from './insert-command/insert-command.componen
   ],
   providers: [
     SanitizeHtmlPipe,
+    {
+      provide: NGX_UPLOAD_IMAGE_TOKEN,
+      useClass: NgxUploadImageService,
+    },
   ],
-  exports: [
-    MenuComponent,
-    FloatingMenuComponent,
-  ],
+  exports: [MenuComponent, FloatingMenuComponent],
 })
-
-export class MenuModule { }
+export class MenuModule {}

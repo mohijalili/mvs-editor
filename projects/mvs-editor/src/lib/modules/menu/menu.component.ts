@@ -1,7 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Inject,
   Input,
+  OnDestroy,
   OnInit,
   TemplateRef,
 } from '@angular/core';
@@ -10,6 +12,13 @@ import { NgxEditorError } from 'mvs-editor/utils';
 import { Toolbar, ToolbarItem, ToolbarDropdown } from '../../types';
 import { MenuService } from './menu.service';
 import Editor from '../../Editor';
+import {
+  INgxUploadImage,
+  INgxUploadImageConfig,
+  NGX_UPLOAD_IMAGE_TOKEN,
+  NgxUploadImagePayload,
+} from '../../upload-image.service';
+import { map, Observable, Subscription } from 'rxjs';
 
 export const DEFAULT_TOOLBAR: Toolbar = [
   ['bold', 'italic'],
@@ -74,6 +83,9 @@ export class MenuComponent implements OnInit {
   @Input() editor: Editor;
   @Input() customMenuRef: TemplateRef<any> | null = null;
   @Input() dropdownPlacement: 'top' | 'bottom' = 'bottom';
+  @Input() uploadImageConfig: INgxUploadImageConfig;
+
+  public imageUrl$: Observable<string>;
 
   toggleCommands: ToolbarItem[] = [
     'bold',
@@ -96,7 +108,11 @@ export class MenuComponent implements OnInit {
   dropdownContainerClass = ['NgxEditor__Dropdown'];
   seperatorClass = ['NgxEditor__Seperator'];
 
-  constructor(private menuService: MenuService) {}
+  constructor(
+    private menuService: MenuService,
+    @Inject(NGX_UPLOAD_IMAGE_TOKEN)
+    private readonly uploadImage: INgxUploadImage
+  ) {}
 
   get presets(): string[][] {
     const col = 8;
@@ -139,5 +155,24 @@ export class MenuComponent implements OnInit {
     }
 
     this.menuService.editor = this.editor;
+  }
+
+  public upload(file: File) {
+    const payload: NgxUploadImagePayload = {
+      ...this.uploadImageConfig,
+      file,
+    };
+
+    this.imageUrl$ = this.uploadImage
+      .uploadImage(payload)
+      .pipe(map((response) => response.url));
+  }
+
+  public get showUploadButton(): boolean {
+    return Boolean(
+      this.uploadImageConfig?.url &&
+        this.uploadImageConfig?.method &&
+        this.uploadImageConfig?.token
+    );
   }
 }
