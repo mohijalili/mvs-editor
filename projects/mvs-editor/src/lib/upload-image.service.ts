@@ -1,6 +1,7 @@
 import { Injectable, InjectionToken, Self } from '@angular/core';
 
 import {
+  HttpBackend,
   HttpClient,
   HttpContext,
   HttpHeaders,
@@ -65,7 +66,11 @@ export const NGX_UPLOAD_IMAGE_TOKEN = new InjectionToken<INgxUploadImage>(
   providedIn: 'root',
 })
 export class NgxUploadImageService implements INgxUploadImage {
-  constructor(@Self() private http: HttpClient) {}
+  private http: HttpClient;
+
+  constructor(handler: HttpBackend) {
+    this.http = new HttpClient(handler);
+  }
 
   uploadImage({
     method,
