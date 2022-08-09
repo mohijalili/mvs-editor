@@ -83,11 +83,19 @@ export class ImageViewComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.imgEl) {
-      setTimeout(() => {
+      this.loadImage(this.src, this.imgEl).then(() => {
         this.outerWidth = this.imgEl.nativeElement.naturalWidth;
         this.outerHeight = this.imgEl.nativeElement.naturalHeight;
         this.imageResize.emit();
-      }, 200);
+      });
     }
+  }
+
+  async loadImage(url: string, elem: ElementRef<HTMLImageElement>) {
+    return new Promise((resolve, reject) => {
+      elem.nativeElement.onload = () => resolve(elem);
+      elem.nativeElement.onerror = reject;
+      elem.nativeElement.src = url;
+    });
   }
 }
